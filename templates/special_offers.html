@@ -1,0 +1,15 @@
+<h2>Special Offers</h2>
+
+{% if offers %}
+    <ul>
+    {% for offer in offers %}
+        <li>
+            <strong>{{ offer.title }}</strong> - {{ offer.brand }} {{ offer.model }} — {{ offer.price }} €
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No special offers right now.</p>
+{% endif %}
+
+<a href="{% url 'home' %}">Back to home</a>
