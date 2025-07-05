@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, redirect, get_object_or_404
 
 # Create your views here.
@@ -9,8 +10,17 @@ from car.models import CarAd
 
 
 def home_view(request):
+    if request.user.is_authenticated:
+        ads = CarAd.objects.all()
+        return render(request, 'home.html', {'ads': ads})
     return render(request, 'home.html')
 
+from django.contrib.auth.decorators import login_required
+
+# @login_required
+# def car_list(request):
+#     cars = CarAd.objects.all()
+#     return render(request, 'car_list.html', {'cars': cars})
 
 @login_required
 def create_ad_view(request):
@@ -25,28 +35,39 @@ def create_ad_view(request):
         form = CarAdForm()
     return render(request, 'create_ad.html', {'form': form})
 
-# @login_required
-# def edit_ad_view(request, pk):
-#     car_ad = get_object_or_404(CarAd, pk=pk, owner=request.user)  # само собственикът може да редактира
-#
-#     if request.method == 'POST':
-#         form = CarAdForm(request.POST, instance=car_ad)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('home')  # след редакция връщаме на home
-#     else:
-#         form = CarAdForm(instance=car_ad)
-#
-#     return render(request, 'edit_ad.html', {'form': form, 'car_ad': car_ad})
-#
-#
-# @login_required
-# def delete_ad_view(request, pk):
-#     car_ad = get_object_or_404(CarAd, pk=pk, owner=request.user)  # само собственик може да изтрива
-#     if request.method == 'POST':
-#         car_ad.delete()
-#         return redirect('home')
-#     return render(request, 'delete_ad_confirm.html', {'car_ad': car_ad})
+@login_required
+def edit_ad(request, pk):
+    ad = get_object_or_404(CarAd, pk=pk)
+
+    if request.user != ad.owner and not request.user.is_superuser:
+        raise PermissionDenied()
+
+    if request.method == 'POST':
+        form = CarAdForm(request.POST, request.FILES, instance=ad)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = CarAdForm(instance=ad)
+
+    return render(request, 'edit_ad.html', {'form': form})
+
+@login_required
+def delete_ad(request, pk):
+    ad = get_object_or_404(CarAd, pk=pk)
+
+    if request.user != ad.owner and not request.user.is_superuser:
+        raise PermissionDenied()
+
+    if request.method == 'POST':
+        ad.delete()
+        return redirect('home')
+
+    return render(request, 'delete_ad_confirm.html', {'ad': ad})
+
+def car_ad_detail(request, pk):
+    ad = get_object_or_404(CarAd, pk=pk)
+    return render(request, 'car_ad_detail.html', {'ad': ad})
 
 def special_offers_view(request):
     offers = CarAd.objects.filter(is_special_offer=True)

@@ -1,0 +1,29 @@
+{% block content %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Car ads</title>
+</head>
+<body>
+    <h1>All ads</h1>
+
+    {% for ad in ads %}
+        <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
+            <h2>{{ ad.title }}</h2>
+            <p>{{ ad.description }}</p>
+            {% if ad.image %}
+                <img src="{{ ad.image.url }}" alt="Car Image" style="max-width: 300px;">
+            {% endif %}
+            <p><strong>Price:</strong> {{ ad.price }} лв</p>
+        </div>
+    {% empty %}
+        <p>No ads published.</p>
+    {% endfor %}
+
+    <a href="{% url 'car_ad_detail' ad.pk %}">
+    <h3>{{ ad.brand }} {{ ad.model }}</h3>
+</a>
+</body>
+</html>
+{% endblock %}

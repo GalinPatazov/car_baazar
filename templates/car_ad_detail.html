@@ -1,0 +1,16 @@
+{% block content %}
+  <h2>{{ ad.brand }} {{ ad.model }}</h2>
+  <img src="{{ ad.image.url }}" alt="Car image" style="max-width: 400px;"><br>
+  <p><strong>Price:</strong> {{ ad.price }} лв.</p>
+  <p><strong>Description:</strong> {{ ad.description }}</p>
+  <p><strong>Year:</strong> {{ ad.year }}</p>
+  <p><strong>Owner:</strong> {{ ad.owner.username }}</p>
+
+  {% if user == ad.owner or user.is_superuser %}
+    <a href="{% url 'edit_ad' ad.pk %}">✏️ Edit</a>
+    <a href="{% url 'delete_ad' ad.pk %}">🗑️ Delete</a>
+  {% endif %}
+
+  <br><br>
+  <a href="{% url 'car_list' %}">🔙 Go back</a>
+{% endblock %}

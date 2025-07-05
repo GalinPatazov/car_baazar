@@ -12,18 +12,39 @@
 
         {% if user.is_superuser %}
             <a href="{% url 'create_ad' %}">Create Ad </a><br>
-{#            <a href="{% url 'edit_ad' car_ad.pk %}">Edit Ad</a>#}
             <a href="{% url 'admin:index' %}">Go to Admin Panel</a><br>
+            <a href="{% url 'special_offers' %}">View Special Offers</a><br>
         {% else %}
             <a href="{% url 'create_ad' %}">Create Ad</a><br>
             <a href="{% url 'special_offers' %}">View Special Offers</a><br>
         {% endif %}
 
         <a href="{% url 'logout' %}">Logout</a>
+
+        <hr>
+        <h2>All ads</h2>
+        {% for ad in ads %}
+            <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
+                <h3>{{ ad.title }}</h3>
+                <h3>{{ ad.brand }} {{ ad.model }}</h3>
+                <p>{{ ad.description }}</p>
+                {% if ad.image %}
+                    <img src="{{ ad.image.url }}" style="max-width: 200px;">
+                {% endif %}
+                <p><strong>Price:</strong> {{ ad.price }} лв</p>
+
+                {% if user == ad.owner or user.is_superuser %}
+                    <a href="{% url 'edit_ad' ad.pk %}">Edit</a>
+                    <a href="{% url 'delete_ad' ad.pk %}">Delete</a>
+                {% endif %}
+            </div>
+        {% empty %}
+            <p>No ads.</p>
+        {% endfor %}
+
     {% else %}
         <a href="{% url 'login' %}">Login</a><br>
         <a href="{% url 'register' %}">Register</a>
     {% endif %}
-
 </body>
 </html>
