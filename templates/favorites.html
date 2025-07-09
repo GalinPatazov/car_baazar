@@ -1,0 +1,13 @@
+<h2>My Favorite Ads</h2>
+<ul>
+    {% for fav in favorites %}
+        <li>
+            <a href="{% url 'car_ad_detail' fav.car_ad.id %}">
+                {{ fav.car_ad.title }} - {{ fav.car_ad.price }} лв.
+            </a>
+        </li>
+    {% empty %}
+        <li>No favorite ads yet.</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'home' %}"> Back to Home</a>

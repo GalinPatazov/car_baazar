@@ -10,4 +10,6 @@ urlpatterns = [
     path('edit/<int:pk>/', edit_ad, name='edit_ad'),
     path('delete/<int:pk>/', delete_ad, name='delete_ad'),
     path('ad/<int:pk>/', car_ad_detail, name='car_ad_detail'),
+    # path('ads/<int:ad_id>/edit/', edit_car_ad, name='edit_car_ad'),
+
 ]

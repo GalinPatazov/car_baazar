@@ -1,9 +1,14 @@
-from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404
 
 # Create your views here.
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
+
+from car.models import CarAd
 from .forms import RegisterForm, LoginForm
+from .models import Favorite
+
 
 def register_view(request):
     if request.method == 'POST':
@@ -32,3 +37,27 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('home')
+
+
+def details_view(request):
+    return render(request, 'details.html')
+
+
+# @login_required
+# def toggle_favorite(request, ad_id):
+#     ad = get_object_or_404(CarAd, id=ad_id)
+#     favorite = Favorite.objects.filter(user=request.user, car_ad=ad)
+#
+#     if favorite.exists():
+#         favorite.delete()  # премахваме от любими
+#     else:
+#         Favorite.objects.create(user=request.user, car_ad=ad)  # добавяме в любими
+#
+#     return redirect('car_ad_detail', ad_id=ad.id)  # връща обратно към страницата на обявата
+#
+#
+@login_required
+def my_favorites(request):
+    favorites = Favorite.objects.filter(user=request.user).select_related('car_ad')
+    return render(request, 'favorites.html', {'favorites': favorites})
+

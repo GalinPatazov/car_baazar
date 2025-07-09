@@ -39,6 +39,7 @@ class CarAd(models.Model):
     created_at = models.DateTimeField(
         auto_now_add=True,
     )
+    image = models.ImageField(upload_to='car_images/', null=True, blank=True)
 
     def __str__(self):
         return f"{self.brand} {self.model} ({self.year})"

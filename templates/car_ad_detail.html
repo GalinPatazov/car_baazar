@@ -6,11 +6,45 @@
   <p><strong>Year:</strong> {{ ad.year }}</p>
   <p><strong>Owner:</strong> {{ ad.owner.username }}</p>
 
+    {% if ad.image %}
+        <img src="{{ ad.image.url }}" alt="Car Image" style="max-width: 400px;">
+    {% endif %}
+
+
   {% if user == ad.owner or user.is_superuser %}
-    <a href="{% url 'edit_ad' ad.pk %}">✏️ Edit</a>
-    <a href="{% url 'delete_ad' ad.pk %}">🗑️ Delete</a>
+    <a href="{% url 'edit_ad' ad.pk %}"> Edit</a>
+    <a href="{% url 'delete_ad' ad.pk %}"> Delete</a>
   {% endif %}
 
+
   <br><br>
-  <a href="{% url 'car_list' %}">🔙 Go back</a>
+  <a href="{% url 'car_list' %}"> Go back</a>
 {% endblock %}
+
+
+
+{#{% extends 'base.html' %}#}
+{##}
+{#{% block content %}#}
+{#  <h2>{{ ad.brand }} {{ ad.model }}</h2>#}
+{##}
+{#  <img src="{{ ad.image.url }}" alt="Car image" style="max-width: 400px;"><br>#}
+{##}
+{#  <p><strong>Price:</strong> {{ ad.price }} лв.</p>#}
+{#  <p><strong>Description:</strong> {{ ad.description }}</p>#}
+{#  <p><strong>Year:</strong> {{ ad.year }}</p>#}
+{#  <p><strong>Owner:</strong> {{ ad.owner.username }}</p>#}
+{##}
+{#  <!-- Edit button: visible for owner, superuser, or staff with permission -->#}
+{#  {% if user == ad.owner or user.is_superuser or (user.is_staff and user.has_perm('car.change_carad')) %}#}
+{#    <a href="{% url 'edit_car_ad' ad.id %}">✏️ Edit</a>#}
+{#  {% endif %}#}
+{##}
+{#  <!-- Delete button: only for owner or superuser -->#}
+{#  {% if user == ad.owner or user.is_superuser %}#}
+{#    <a href="{% url 'delete_ad' ad.id %}">🗑️ Delete</a>#}
+{#  {% endif %}#}
+{##}
+{#  <br><br>#}
+{#  <a href="{% url 'car_list' %}">🔙 Go back</a>#}
+{#{% endblock %}#}
