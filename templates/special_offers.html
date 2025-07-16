@@ -4,7 +4,9 @@
     <ul>
     {% for offer in offers %}
         <li>
-            <strong>{{ offer.title }}</strong> - {{ offer.brand }} {{ offer.model }} — {{ offer.price }} €
+            <a href="{% url 'car_ad_detail' offer.pk %}" style="text-decoration: none; color: inherit;">
+                <strong>{{ offer.title }}</strong> – {{ offer.brand }} {{ offer.model }} — {{ offer.price }} €
+            </a>
         </li>
     {% endfor %}
     </ul>

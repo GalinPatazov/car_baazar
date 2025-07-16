@@ -27,13 +27,15 @@
         <h2>All ads</h2>
         {% for ad in ads %}
             <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
-                <h3>{{ ad.title }}</h3>
-                <h3>{{ ad.brand }} {{ ad.model }}</h3>
-                <p>{{ ad.description }}</p>
-                {% if ad.image %}
-                    <img src="{{ ad.image.url }}" style="max-width: 200px;">
-                {% endif %}
-                <p><strong>Price:</strong> {{ ad.price }} лв</p>
+                <a href="{% url 'car_ad_detail' ad.pk %}" style="text-decoration: none; color: inherit;">
+                    <h3>{{ ad.title }}</h3>
+                    <h3>{{ ad.brand }} {{ ad.model }}</h3>
+                    <p>{{ ad.description }}</p>
+                    {% if ad.image %}
+                        <img src="{{ ad.image.url }}" style="max-width: 200px;">
+                    {% endif %}
+                    <p><strong>Price:</strong> {{ ad.price }} лв</p>
+                </a>
 
                 {% if user == ad.owner or user.is_superuser %}
                     <a href="{% url 'edit_ad' ad.pk %}">Edit</a>

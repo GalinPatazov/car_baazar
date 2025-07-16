@@ -41,6 +41,12 @@ class CarAd(models.Model):
     )
     image = models.ImageField(upload_to='car_images/', null=True, blank=True)
 
+    class Meta:
+        permissions = [
+            ("can_edit_all_ads", "Can edit all ads"),
+            ("can_delete_any_ad", "Can delete any car ad"),
+        ]
+
     def __str__(self):
         return f"{self.brand} {self.model} ({self.year})"
 

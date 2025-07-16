@@ -1,29 +1,20 @@
+{% extends 'home.html' %}
+
 {% block content %}
+<h1>All ads</h1>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Car ads</title>
-</head>
-<body>
-    <h1>All ads</h1>
-
-    {% for ad in ads %}
+{% for ad in ads %}
+    <a href="{% url 'car_ad_detail' ad.pk %}" style="text-decoration: none; color: inherit;">
         <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
-            <h2>{{ ad.title }}</h2>
+            <h2>{{ ad.brand }} {{ ad.model }} - {{ ad.title }}</h2>
             <p>{{ ad.description }}</p>
             {% if ad.image %}
                 <img src="{{ ad.image.url }}" alt="Car Image" style="max-width: 300px;">
             {% endif %}
             <p><strong>Price:</strong> {{ ad.price }} лв</p>
         </div>
-    {% empty %}
-        <p>No ads published.</p>
-    {% endfor %}
-
-    <a href="{% url 'car_ad_detail' ad.pk %}">
-    <h3>{{ ad.brand }} {{ ad.model }}</h3>
-</a>
-</body>
-</html>
+    </a>
+{% empty %}
+    <p>No ads published.</p>
+{% endfor %}
 {% endblock %}
