@@ -18,12 +18,59 @@
     <form action="{% url 'toggle_favorite' ad.pk %}" method="post" style="display:inline;">
       {% csrf_token %}
       {% if is_favorite %}
-        <button type="submit">Remove from Favorites </button>
+        <button type="submit">Remove from Favorites</button>
       {% else %}
-        <button type="submit">Add to Favorites </button>
+        <button type="submit">Add to Favorites</button>
       {% endif %}
     </form>
 
   <br><br>
   <a href="{% url 'home' %}">Go back</a>
+
+
+    <hr>
+    <h3>Comments</h3>
+
+    {% if comments %}
+      {% for comment in comments %}
+        <div style="border-bottom: 1px solid #ccc; margin-bottom: 10px; padding-bottom: 10px;">
+          <strong>{{ comment.author.username }}</strong>
+          <small>{{ comment.created_at|date:"SHORT_DATETIME_FORMAT" }}</small><br>
+          {{ comment.content|linebreaks }}
+
+          {% if user.is_authenticated %}
+            {% if user.is_staff %}
+              <form action="{% url 'comment_delete' comment.pk %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" style="color: red; background:none; border:none; cursor:pointer;" title="Delete comment">🗑️ Delete</button>
+              </form>
+            {% else %}
+              {% for group in user.groups.all %}
+                {% if group.name == 'staff' %}
+                  <form action="{% url 'comment_delete' comment.pk %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" style="color: red; background:none; border:none; cursor:pointer;" title="Delete comment">🗑️ Delete</button>
+                  </form>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          {% endif %}
+        </div>
+      {% endfor %}
+    {% else %}
+      <p>No comments yet.</p>
+    {% endif %}
+
+    {% if user.is_authenticated %}
+      <h4>Add your comment</h4>
+      <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+      </form>
+    {% else %}
+      <p><a href="{% url 'login' %}">Log in</a> to post a comment.</p>
+    {% endif %}
+
+
 {% endblock %}

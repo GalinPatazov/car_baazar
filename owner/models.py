@@ -81,3 +81,13 @@ class Favorite(models.Model):
     def __str__(self):
         return f"{self.user.username} favorited {self.car_ad.title}"
 
+
+class Comment(models.Model):
+    ad = models.ForeignKey('car.CarAd', on_delete=models.CASCADE, related_name='comments')
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.author.username} rated {self.ad} - {self.rating}★'
+

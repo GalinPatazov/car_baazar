@@ -34,7 +34,7 @@ def create_ad_view(request):
             ad = form.save(commit=False)
             ad.owner = request.user
             ad.save()
-            return redirect('home')  # or whatever your list view is
+            return redirect('home')
     else:
         form = CarAdForm()
     return render(request, 'create_ad.html', {'form': form})
@@ -98,10 +98,4 @@ class CarUpdateView(UserPassesTestMixin, UpdateView):
 
         return car.owner == user or user.has_perm('car.can_edit_all_ads')
 
-class ToggleFavoriteView(LoginRequiredMixin, View):
-    def post(self, request, pk):
-        ad = get_object_or_404(CarAd, pk=pk)
-        favorite, created = Favorite.objects.get_or_create(user=request.user, car_ad=ad)
-        if not created:
-            favorite.delete()
-        return redirect('car_ad_detail', pk=pk)
+

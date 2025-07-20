@@ -1,7 +1,6 @@
 from django.urls import path, include
 
-from car.views import home_view, create_ad_view, special_offers_view, edit_ad, delete_ad, car_ad_detail, \
-    ToggleFavoriteView
+from car.views import home_view, create_ad_view, special_offers_view, edit_ad, delete_ad, car_ad_detail
 
 urlpatterns = [
     path('', home_view, name='home'),
@@ -11,6 +10,6 @@ urlpatterns = [
     path('edit/<int:pk>/', edit_ad, name='edit_ad'),
     path('delete/<int:pk>/', delete_ad, name='delete_ad'),
     path('ad/<int:pk>/', car_ad_detail, name='car_ad_detail'),
-    path('ad/<int:pk>/toggle_favorite/', ToggleFavoriteView.as_view(), name='toggle_favorite'),
+
 
 ]

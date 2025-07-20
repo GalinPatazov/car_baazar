@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .models import CustomUser  # your custom user
+from .models import CustomUser, Comment  # your custom user
 
 
 from django import forms
@@ -23,3 +23,12 @@ class RegisterForm(UserCreationForm):
 class LoginForm(AuthenticationForm):
     username = forms.CharField(label="Username")
     password = forms.CharField(widget=forms.PasswordInput)
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['content']
+        widgets = {
+            'content': forms.Textarea(attrs={'rows':3, 'placeholder': 'Write your comment here...'}),
+        }
