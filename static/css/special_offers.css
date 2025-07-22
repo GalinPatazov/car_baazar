@@ -1,0 +1,9 @@
+.offer-item:hover {
+  background-color: #e9f5ff;
+  transition: background-color 0.3s ease;
+}
+
+.offer-price {
+  color: #007bff;
+  font-size: 1.1rem;
+}

@@ -1,16 +1,26 @@
-<h2>Register</h2>
-
-<form method="post">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Register</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/register.css' %}">
+</head>
+<body>
+  <form method="post" class="register-form">
     {% csrf_token %}
     {{ form.non_field_errors }}
+    <h2>Register</h2>
     {% for field in form %}
-        <p>
-            {{ field.label_tag }}
-            {{ field }}
-            {% if field.errors %}
-                <span style="color:red">{{ field.errors|striptags }}</span>
-            {% endif %}
-        </p>
+      <p>
+        {{ field.label_tag }}
+        {{ field }}
+        {% if field.errors %}
+          <span class="error">{{ field.errors|striptags }}</span>
+        {% endif %}
+      </p>
     {% endfor %}
     <button type="submit">Register</button>
-</form>
+  </form>
+</body>
+</html>

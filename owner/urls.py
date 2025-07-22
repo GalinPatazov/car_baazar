@@ -1,5 +1,7 @@
+from django.conf.urls.static import static
 from django.urls import path, include
 
+from car_baazar import settings
 from owner.views import register_view, login_view, logout_view, details_view, my_favorites, CarAdDetailView, \
     CommentDeleteView, ToggleFavoriteView
 
@@ -14,4 +16,4 @@ urlpatterns = [
     path('comments/<int:pk>/delete/', CommentDeleteView.as_view(), name='comment_delete'),
     path('ad/<int:pk>/toggle_favorite/', ToggleFavoriteView.as_view(), name='toggle_favorite'),
 
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -1,17 +1,40 @@
-<h2>Special Offers</h2>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Special Offers</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="{% static 'css/special_offers.css' %}" rel="stylesheet" />
+</head>
+<body class="bg-light">
+  <div class="container py-5">
+    <h2 class="mb-4 text-center">Special Offers</h2>
 
-{% if offers %}
-    <ul>
-    {% for offer in offers %}
-        <li>
-            <a href="{% url 'car_ad_detail' offer.pk %}" style="text-decoration: none; color: inherit;">
-                <strong>{{ offer.title }}</strong> – {{ offer.brand }} {{ offer.model }} — {{ offer.price }} €
+    {% if offers %}
+      <ul class="list-group mb-4">
+        {% for offer in offers %}
+          <li class="list-group-item offer-item">
+            <a href="{% url 'car_ad_detail' offer.pk %}" class="text-decoration-none text-dark d-flex justify-content-between align-items-center">
+              <div>
+                <strong>{{ offer.title }}</strong> &ndash; {{ offer.brand }} {{ offer.model }}
+              </div>
+              <div class="offer-price fw-bold">
+                {{ offer.price }} €
+              </div>
             </a>
-        </li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No special offers right now.</p>
-{% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="text-center text-muted fs-5">No special offers right now.</p>
+    {% endif %}
 
-<a href="{% url 'home' %}">Back to home</a>
+    <div class="text-center">
+      <a href="{% url 'home' %}" class="btn btn-primary">Back to Home</a>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

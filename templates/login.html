@@ -1,6 +1,60 @@
-<h2>Login</h2>
-<form method="post">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login</title>
+  <style>
+    body {
+      background-color: #f0f4f8;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .login-form {
+      background-color: #ffffff;
+      padding: 30px 40px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      width: 320px;
+    }
+    .login-form h2 {
+      margin-bottom: 20px;
+      color: #333;
+      text-align: center;
+    }
+    .login-form input {
+      width: 100%;
+      padding: 10px 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+    .login-form button {
+      width: 100%;
+      padding: 10px 0;
+      background-color: #007bff;
+      border: none;
+      border-radius: 4px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .login-form button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <form method="post" class="login-form">
     {% csrf_token %}
+    <h2>Login</h2>
     {{ form.as_p }}
     <button type="submit">Login</button>
-</form>
+  </form>
+</body>
+</html>
