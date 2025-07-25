@@ -7,8 +7,8 @@ from .models import CarAd, CarImage
 class CarAdForm(forms.ModelForm):
     class Meta:
         model = CarAd
-        fields = '__all__'  # or list fields manually if needed
-        exclude = ['owner']  # owner will be set automatically in the view
+        fields = '__all__'
+        exclude = ['owner']
         widgets = {
             'description': forms.Textarea(attrs={'rows': 4}),
         }

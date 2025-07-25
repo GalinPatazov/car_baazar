@@ -21,7 +21,7 @@ def register_view(request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)  # auto-login after registration
+            login(request, user)
             return redirect('home')
     else:
         form = RegisterForm()
@@ -55,11 +55,11 @@ def details_view(request):
 #     favorite = Favorite.objects.filter(user=request.user, car_ad=ad)
 #
 #     if favorite.exists():
-#         favorite.delete()  # премахваме от любими
+#         favorite.delete()
 #     else:
-#         Favorite.objects.create(user=request.user, car_ad=ad)  # добавяме в любими
+#         Favorite.objects.create(user=request.user, car_ad=ad)
 #
-#     return redirect('car_ad_detail', ad_id=ad.id)  # връща обратно към страницата на обявата
+#     return redirect('car_ad_detail', ad_id=ad.id)
 #
 #
 @login_required
@@ -91,7 +91,7 @@ class CarAdDetailView(DetailView):
         return context
 
     def post(self, request, *args, **kwargs):
-        # Обработваме формата за нов коментар
+
         self.object = self.get_object()
         form = CommentForm(request.POST)
         if form.is_valid() and request.user.is_authenticated:
@@ -101,7 +101,7 @@ class CarAdDetailView(DetailView):
             comment.save()
             return redirect('car_ad_detail', pk=self.object.pk)
         else:
-            # Ако формата не е валидна - пак рендерираме с грешките
+
             context = self.get_context_data()
             context['form'] = form
             return self.render_to_response(context)

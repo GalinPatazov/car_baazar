@@ -1,13 +1,37 @@
-<h2>My Favorite Ads</h2>
-<ul>
-    {% for fav in favorites %}
-        <li>
-            <a href="{% url 'car_ad_detail' fav.car_ad.id %}">
-                {{ fav.car_ad.title }} - {{ fav.car_ad.price }} лв.
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>My Favorite Ads</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="{% static 'css/favorites.css' %}" rel="stylesheet" />
+</head>
+<body class="bg-light">
+  <div class="container py-5">
+    <h2 class="mb-4 text-center">My Favorite Ads</h2>
+
+    {% if favorites %}
+      <ul class="list-group mb-4">
+        {% for fav in favorites %}
+          <li class="list-group-item favorite-item">
+            <a href="{% url 'car_ad_detail' fav.car_ad.id %}" class="text-decoration-none text-dark d-flex justify-content-between align-items-center">
+              <div>
+                <strong>{{ fav.car_ad.title }}</strong> &ndash; {{ fav.car_ad.price }} лв.
+              </div>
             </a>
-        </li>
-    {% empty %}
-        <li>No favorite ads yet.</li>
-    {% endfor %}
-</ul>
-<a href="{% url 'home' %}"> Back to Home</a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="text-center text-muted fs-5">No favorite ads yet.</p>
+    {% endif %}
+
+    <div class="text-center">
+      <a href="{% url 'home' %}" class="btn btn-primary">Back to Home</a>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -5,8 +5,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 # Create your views here.
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import UpdateView, DetailView
+from django.views.generic import UpdateView, DetailView, DeleteView
 
 from car.forms import CarAdForm
 from car.models import CarAd
@@ -56,18 +57,11 @@ def edit_ad(request, pk):
 
     return render(request, 'edit_ad.html', {'form': form})
 
-@login_required
-def delete_ad(request, pk):
-    ad = get_object_or_404(CarAd, pk=pk)
-
-    if request.user != ad.owner and not request.user.is_superuser:
-        raise PermissionDenied()
-
-    if request.method == 'POST':
-        ad.delete()
-        return redirect('home')
-
-    return render(request, 'delete_ad_confirm.html', {'ad': ad})
+class CarAdDeleteView(LoginRequiredMixin, DeleteView):
+    model = CarAd
+    template_name = 'delete_ad_confirm.html'
+    success_url = reverse_lazy('home')
+    login_url = 'login'
 
 def car_ad_detail(request, pk):
     ad = get_object_or_404(CarAd, pk=pk)
