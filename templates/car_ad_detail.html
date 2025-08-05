@@ -54,7 +54,7 @@
               {% if user.is_staff %}
                 <form action="{% url 'comment_delete' comment.pk %}" method="post" class="d-inline">
                   {% csrf_token %}
-                  <button type="submit" class="btn btn-sm btn-danger" title="Delete comment">🗑️ Delete</button>
+                  <button type="submit" class="btn btn-sm btn-danger" title="Delete comment">Delete</button>
                 </form>
               {% else %}
                 {% for group in user.groups.all %}
